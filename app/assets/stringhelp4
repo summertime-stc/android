@@ -1,0 +1,16 @@
+44444444444444444444444444444444444444444444444444444444444444444444444444444444444
+//    QString printbuff,cmdbuff="";
+//    QString dispalytemp,dispalytext="";
+//    dispalytemp.sprintf("            %s            \n","肝功八项\n");
+//    dispalytext+=dispalytemp;
+//    QString one=QString("                              ");
+//    one.replace(1,10,gangongeport.datatime.mid(0,10));
+//    one.replace(30-9,9,gangongeport.datatime.mid(11,8)+"\n");
+//    dispalytext+=one;
+//    dispalytemp.sprintf("%s%s%s%s\n"," _ _ _ _"," _ _ _ _"," _ _ _ _"," _ _ _ _");
+//    dispalytext+=dispalytemp;
+//    dispalytemp.sprintf(" %s   %s   %s   %s\n","项目","结果","参考范围","单位");
+//    dispalytext+=dispalytemp;
+//    dispalytemp.sprintf("%s%s%s%s\n"," _ _ _ _"," _ _ _ _"," _ _ _ _"," _ _ _ _");
+//    dispalytext+=dispalytemp;
+//    GanGongRefIni(&defaultGanGongRefStruct);

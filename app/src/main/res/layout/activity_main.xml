@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cl"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.example.myapplication.TitleLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:title_middle_text="主界面"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="bt3"
+        android:text="天气记事"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button4"
+        app:layout_constraintEnd_toEndOf="@+id/pb1"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="@+id/pb1" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="168dp"
+        android:onClick="bt4"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="@+id/tv1"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/tv1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="71dp"
+        android:layout_marginRight="71dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pb1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pb1"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginLeft="56dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginRight="68dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/tv1"
+        app:layout_constraintEnd_toStartOf="@+id/tv1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv1" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+
+    <Button
+        android:id="@+id/button11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:onClick="button11"
+        android:text="保存sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintVertical_bias="0.171" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="音量"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="67dp"
+        android:layout_height="57dp"
+        android:layout_margin="0dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="44dp"
+        android:layout_weight="1"
+        android:src="@drawable/waiting_fourpoint"
+        app:layout_constraintBottom_toBottomOf="@+id/button11"
+        app:layout_constraintEnd_toEndOf="@+id/button4"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/button11"
+        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="-16dp">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/bottom"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="129dp" />
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/ms100_spiner"
+        android:ems="10"
+        android:overlapAnchor="false"
+        android:spinnerMode="dropdown"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button11" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="85dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginBottom="116dp"
+        android:visibility="invisible"
+        android:src="@drawable/jpg1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
