@@ -71,4 +71,12 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.0.0'
 
     implementation 'org.litepal.guolindev:core:3.1.1'
+
+    implementation 'io.github.youth5201314:banner:2.2.2'
+
+    //控件注解
+//    implementation 'com.jakewharton:butterknife:8.8.1'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 }

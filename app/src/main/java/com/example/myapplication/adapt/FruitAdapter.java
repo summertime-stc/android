@@ -69,6 +69,7 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder> 
 
         final ViewHolder holder = new ViewHolder(view);
 
+
         //给整个View设置监听器
         holder.fruitView.setOnClickListener(new View.OnClickListener(){
             @Override
