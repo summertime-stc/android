@@ -60,9 +60,6 @@ public class ListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.setLayoutManager(layoutManager);
-
-
         fruitAdapter = new FruitAdapter(fruitList,root.getContext());
         recyclerView.setAdapter(fruitAdapter);
 

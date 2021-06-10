@@ -61,10 +61,11 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 super.run();
 //                Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA  摄像头
-//                Manifest.permission.ACCESS_COARSE_LOCATION  位置
-                requestPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,}, 0x0002);
+//                Manifest.permission.ACCESS_COARSE_LOCATION  位置   Manifest.permission.ACCESS_FINE_LOCATION 定位
+                requestPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE}, 0x0002);
             }
         }.start();
+
     }
 
 

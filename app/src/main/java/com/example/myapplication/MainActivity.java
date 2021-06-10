@@ -11,7 +11,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,6 +43,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -52,6 +58,8 @@ import com.example.myapplication.utils.IniFileold;
 import com.example.myapplication.utils.ScreenBrightness;
 import com.example.myapplication.viewmodel.ProcessViewModel;
 import com.example.myapplication.viewmodel.TitleViewModel;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -60,6 +68,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -86,7 +96,7 @@ public class MainActivity extends BaseActivity {
             super.handleMessage(msg);
             if (msg.what == 1) {
                 System.out.println("收到消息，处理事件");
-                tv.setText("收到消息，处理事件");
+//                tv.setText("收到消息，处理事件");
                 closeProgressDialog();
             }
         }
@@ -108,6 +118,7 @@ public class MainActivity extends BaseActivity {
         }
 
         System.out.println("--------------------------main------------------------------");
+//        location();
 
         Fruit1 fruit1=new Fruit1(1,"ss","ddd");
         fruit1.save();
@@ -115,15 +126,6 @@ public class MainActivity extends BaseActivity {
         Cursor cursor = null;
         cursor = LitePal.findBySQL("select * from Fruit1");
         System.out.println("----------------结果显示---------------"+cursor.getCount());
-
-//        IniFileold file = new IniFileold();
-//        try {
-//            file.load(AppApplication.getAppContext().getAssets().open("itembyid_cn.ini"));//new File("D:/dev/idressworkmobile/ztest/src/ztest/FacePositive.ini")
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println("-------------文件提取------------"+file.get("test",String.valueOf(1),String.valueOf(1)));
-
 
 
         setContentView(R.layout.activity_main);
@@ -159,6 +161,7 @@ public class MainActivity extends BaseActivity {
         setSpinner();
         processViewModel.getProcess().setValue(ScreenBrightness.getScreenBrightness(this));
 
+        sendRequestWithHttpURLConnection();
 
         //接受系统锁屏广播需动态注册
         ScreenReceiver screenReceiver;
@@ -481,8 +484,7 @@ public class MainActivity extends BaseActivity {
             public void run() {
                 try {
                     OkHttpClient client = new OkHttpClient();
-//                    Request request = new Request.Builder().url("http://api.apishop.net/common/weather/getAreaID?apiKey=9JS6J992e49d4a3424e7885fb7eb0011e269e36042c2fc6&area=3302").build();
-                    Request request = new Request.Builder().url("http://baidu.com").build();
+                    Request request = new Request.Builder().url("https://devapi.qweather.com/v7/weather/now?key=35308ecb64154831af1c38a08d0622db&location=101010100").build();
                     Response response = client.newCall(request).execute();
                     String responseData = response.body().string();
                     showResponse(responseData);
@@ -500,7 +502,9 @@ public class MainActivity extends BaseActivity {
             public void run() {
                 //在这里做UI操作，将结果显示到界面上
                 System.out.println("          sssssssssssssssssssssssssssssssssssssss"+response);
-                tv.setText(response);
+                Gson g = new Gson();
+                JsonObject obj = g.fromJson(response, JsonObject.class);
+                tv.setText( obj.get("now").getAsJsonObject().get("text").getAsString());
             }
         });
     }
@@ -560,6 +564,69 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+
+    /**
+     * 定位获取当前城市
+     */
+    private void location() {
+        LocationManager locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setCostAllowed(false);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+//        String providerName = locationManager.getBestProvider(criteria, true);
+//        String providerName = LocationManager.NETWORK_PROVIDER;
+        String providerName = "";
+        List<String> providerList = locationManager.getProviders(true);
+        if (providerList.contains(LocationManager.NETWORK_PROVIDER)){
+            providerName = LocationManager.NETWORK_PROVIDER;
+        }else if (providerList.contains(LocationManager.GPS_PROVIDER)){
+            providerName = LocationManager.GPS_PROVIDER;
+        }else {
+
+            System.out.println("provider 获取失败");
+            return;
+        }
+        // 权限复验
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("权限未授权，请先授权UHello定位权限");
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(providerName);
+        if (location != null){
+            final double longitude = location.getLongitude();// 经度
+            final double latitude = location.getLatitude();// 纬度
+            Log.d("TAG", "longitude = " + longitude);
+            Log.d("TAG", "latitude = " + latitude);
+
+
+//            // 因为这里 Geocoder对象的 getFromLocation 方法，源码说明中建议在工作线程执行 getFromLocation方法
+//            new Thread(){
+//                @Override
+//                public void run() {
+//                    super.run();
+//                    try {
+//                        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+//                        result = geocoder.getFromLocation(latitude, longitude, 1);
+//                        handler.sendEmptyMessage(WHAT_LOCATE);
+//                    }catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }.start();
+        }else {
+//            ToastUtil.showToast(getContext(), "UHello 定位失败");
+            System.out.println("location========null");
+        }
+
+    }
 
 
 }

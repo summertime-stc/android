@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +26,9 @@ import com.example.myapplication.adapt.ViewPagerAdaper;
 import com.example.myapplication.adapt.viewPageAdapter;
 import com.example.myapplication.fragment.SecFragment;
 import com.example.myapplication.fragment.TestFragment;
+import com.huawei.hms.hmsscankit.ScanUtil;
+import com.huawei.hms.ml.scan.HmsScan;
+import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +44,6 @@ public class wifiActivity2 extends AppCompatActivity {
   */
 
 
-
-
-
     private Button bt1;
     WifiManager wifiManager;
     private List<ScanResult> WifiList;
@@ -52,6 +54,7 @@ public class wifiActivity2 extends AppCompatActivity {
     private ViewPager2 vp2;
     private NoScrollViewPager viewPager;
     private LayoutInflater inflater;
+    private static final int REQUEST_CODE_SCAN_ONE = 0X01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,5 +238,39 @@ public class wifiActivity2 extends AppCompatActivity {
 
     public void tonew(View view) {
         startActivity(new Intent(wifiActivity2.this,NewActivity.class));
+    }
+
+    public void scan(View view) {
+        ScanUtil.startScan(this, REQUEST_CODE_SCAN_ONE, new HmsScanAnalyzerOptions.Creator().create());
+    }
+
+    /**
+     * Event for receiving the activity result.
+     *
+     * @param requestCode Request code.
+     * @param resultCode Result code.
+     * @param data        Result.
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK || data == null) {
+            return;
+        }
+        //Default View
+        if (requestCode == REQUEST_CODE_SCAN_ONE) {
+            HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
+            if (obj != null) {
+                Intent intent = new Intent(this, ScanResultActivity.class);
+                intent.putExtra("SCAN_RESULT", obj);
+                startActivity(intent);
+            }
+            //MultiProcessor & Bitmap
+        }
+    }
+
+    public void toweather(View view) {
+        startActivity(new Intent(wifiActivity2.this,WeatcherActivity.class));
     }
 }

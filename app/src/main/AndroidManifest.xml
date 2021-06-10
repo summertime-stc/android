@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- sd卡读写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -16,15 +17,29 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+
+
+
     <application
         android:name=".AppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewActivity"></activity>
+        <activity android:name=".SearchCityActivity"></activity>
+        <activity android:name=".FavCitylistActivity" />
+
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/actions" />
+
+        <activity android:name=".CitylistActivity" />
+        <activity android:name=".WeatcherActivity" />
+        <activity android:name=".ScanResultActivity" />
+        <activity android:name=".NewActivity" />
         <activity android:name=".ProcessActivity" />
         <activity android:name=".wifiActivity2" />
         <activity android:name=".Main6Activity" />
@@ -57,7 +72,13 @@
         <!-- </intent-filter> -->
         <!-- </receiver> -->
         <!-- 注册service -->
-        <service android:name=".service.MyService" />
+        <service android:name=".service.MyService" /> <!-- 屏幕宽度为 1080px，480DPI，屏幕总 dp宽度为 1080 / (480 / 160) = 360dp -->
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="411" />
+<!--        <meta-data-->
+<!--            android:name="design_height_in_dp"-->
+<!--            android:value="731" />-->
     </application>
 
 </manifest>
